@@ -1,7 +1,11 @@
 {
   "name": "seehearparty-remote",
   "description": "A remote control for http://www.seehearparty.com",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/frenkie/seehearparty-remote"
+  },
   "scripts" : {
     "start" : "node remotecontrol/server",
     "debug" : "DEBUG=seehearparty* node remotecontrol/server"
