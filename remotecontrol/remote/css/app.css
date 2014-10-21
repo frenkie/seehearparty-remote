@@ -1,0 +1,58 @@
+body {
+    font-family: "Times New Roman", serif;
+    font-style: italic;
+}
+
+#app {
+    padding: 10px;
+}
+
+.form {
+    margin-top: 10px;
+}
+
+.tag-close {
+    margin-left: 5px;
+    color: white;
+    font-size: 13px;
+}
+
+.tag,
+.tag:hover,
+.tag:active {
+    margin-right: 5px;
+    padding: 3px 8px;
+    font-size: 16px;
+    background-color: #404040;
+    border-color: #333;
+}
+
+.query {
+    font-size: 18px;
+}
+
+.next-track {
+    cursor: pointer;
+}
+
+.loader {
+    display: none;
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+
+    padding-top: 120px;
+    background-color: rgba( 0, 0, 0, 0.7 );
+
+    text-align: center;
+    color: white;
+    font-size: 30px;
+}
+
+.loader.loading {
+    display: block;
+}

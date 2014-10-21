@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>See Hear Party - Remote</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/app.css">
+    </head>
+    <body>
+
+        <div id="app">
+            <div class="container">
+                <div class="row">
+                    <h1 class="page-header">See Hear Party <small>Remote</small></h1>
+
+                    <div class="controls">
+
+                        <h4>GIF tags</h4>
+
+                        <div class="well">
+
+                            <div class="tags">...</div>
+
+                            <form class="tag-form form form-inline">
+                                <div class="form-group">
+                                    <input type="text" id="tag-input">
+                                    <input type="submit" class="submit" value="add tag">
+                                </div>
+                            </form>
+                        </div>
+
+                        <hr />
+
+                        <h4>Music</h4>
+                        <div class="well">
+
+                            <span>Searching: </span><span class="query">...</span>
+
+                            <form class="query-form form form-inline">
+                                <div class="form-group">
+                                    <input type="text" id="query-input">
+                                    <input type="submit" class="submit" value="change query">
+                                </div>
+
+                                <hr />
+                                <span>Controls: </span>
+                                <span class="next-track glyphicon glyphicon-step-forward" title="next track"></span>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="loader loading">Updating ...</div>
+
+        <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="js/remote.js"></script>
+    </body>
+</html>
