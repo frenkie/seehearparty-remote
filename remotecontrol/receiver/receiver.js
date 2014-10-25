@@ -13,6 +13,7 @@
     var Receiver = {
          init : function ( host ) {
 
+             Receiver.host = host;
              Receiver.socket = io( host );
 
              Receiver.bindViewEvents();
@@ -28,12 +29,23 @@
              Receiver.socket.on('nexttrack', Receiver.handleNextTrack);
              Receiver.socket.on('addtag', Receiver.handleTagAdd);
              Receiver.socket.on('removetag', Receiver.handleTagRemove);
+
+             Receiver.socket.on('disconnect', Receiver.handleDisconnect);
          },
 
          bindViewEvents : function () {
 
              window.gifTagEdit.on('itemAdded itemRemoved', Receiver.handleTagUpdate );
          },
+
+        handleDisconnect : function () {
+            var reconnect = confirm('Disconnected from See Hear Party, do you want to reconnect?');
+
+            if ( reconnect ) {
+                Receiver.socket = io( Receiver.host );
+                Receiver.socket.emit('identify', 'receiver');
+            }
+        },
 
          handleNextTrack : function () {
 

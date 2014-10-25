@@ -21,6 +21,7 @@ body {
 .tag:hover,
 .tag:active {
     margin-right: 5px;
+    margin-bottom: 3px;
     padding: 3px 8px;
     font-size: 16px;
     background-color: #404040;

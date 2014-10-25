@@ -38,6 +38,7 @@ $(function () {
             Remote.socket.on('queryupdate', Remote.handleQueryUpdate);
             Remote.socket.on('statusupdate', Remote.handleStatusUpdate);
             Remote.socket.on('tagupdate', Remote.handleTagUpdate);
+            Remote.socket.on('disconnect', Remote.handleDisconnect);
         },
 
         bindViewEvents : function () {
@@ -67,6 +68,15 @@ $(function () {
         enableTagInput : function () {
             Remote.tagInput.prop('disabled', false );
             Remote.tagSubmit.prop('disabled', false );
+        },
+
+        handleDisconnect : function () {
+            var reconnect = confirm('Disconnected from See Hear Party, do you want to reconnect?');
+
+            if ( reconnect ) {
+                Remote.socket = io();
+                Remote.socket.emit('identify', 'remote');
+            }
         },
 
         handleNextTrackRequest : function () {

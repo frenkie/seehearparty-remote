@@ -4,7 +4,7 @@ var util = require('util');
 var remoteUtil = require('./util');
 var debug = require('debug')('seehearparty:remotecontrol');
 
-var profanityCheck = '(shit|porn|tit|dick|cock|sex|pussy|fuck|ass|breast|whore|piemel|lul|tiet|kont|kut)';
+var profanityCheck = '(shit|porn|tit|turd|boob|dick|cock|sex|shag|suck|pussy|fuck|nude|naked|ass|breast|whore|piemel|lul|tiet|kont|kut)';
 var profanityRegExp = new RegExp( profanityCheck, 'ig');
 
 var RemoteController = function ( broadcaster ) {
