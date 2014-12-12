@@ -31,7 +31,7 @@ $(function () {
             Remote.bindSocketEvents();
             Remote.bindViewEvents();
 
-            Remote.socket.emit('identify', 'remote');
+            Remote.identify();
         },
 
         bindSocketEvents : function () {
@@ -75,7 +75,7 @@ $(function () {
 
             if ( reconnect ) {
                 Remote.socket = io();
-                Remote.socket.emit('identify', 'remote');
+                Remote.identify();
             }
         },
 
@@ -159,6 +159,22 @@ $(function () {
             }
 
             Remote.setLoadingState( false );
+        },
+
+        identify: function () {
+
+            var partyPlace = prompt( 'Hey there! Please specify a party place you want to connect to!' );
+
+            if ( partyPlace && partyPlace !== '' ) {
+
+                Remote.socket.emit( 'identify', {
+                    type: 'remote',
+                    partyPlace: partyPlace
+                } );
+
+            } else {
+                this.identify();
+            }
         },
 
         /**

@@ -10,8 +10,6 @@ var Remote = function ( socket ) {
 
     this.socket = socket;
 
-    this.socket.join('remotes', this.handleJoin.bind( this ));
-
     this.socket.on('nexttrackrequest', this.handleNextTrackRequest.bind( this ));
     this.socket.on('querychangerequest', this.handleQueryChangeRequest.bind( this ));
     this.socket.on('tagaddrequest', this.handleTagAddRequest.bind( this ));
@@ -25,8 +23,6 @@ remoteUtil.extend( Remote.prototype, {
     getId : function () {
         return this.socket.id;
     },
-
-    handleJoin : function ( err ) { },
 
     handleNextTrackRequest : function () {
         debug('next track request');

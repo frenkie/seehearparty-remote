@@ -1,15 +1,10 @@
 (function () {
-    function injectJs ( link ) {
-        var scr = document.createElement('script');
+
+    var scr = document.createElement('script');
         scr.type = 'text/javascript';
         scr.async = false;
-        scr.src = link;
-        (document.head || document.body || document.documentElement).appendChild( scr );
-    }
+        scr.src = '{{SERVER}}/receiver.js';
 
-    var remoteControlServer = prompt('Enter the http://host:port address of the remote control server');
+    ( document.head || document.body || document.documentElement ).appendChild( scr );
 
-    if ( remoteControlServer !== '' ) {
-        injectJs( remoteControlServer + '/receiver.js' );
-    }
 })();

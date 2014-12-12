@@ -1,7 +1,7 @@
 {
   "name": "seehearparty-remote",
-  "description": "A remote control for http://www.seehearparty.com",
-  "version": "1.1.0",
+  "description": "A remote control service for http://www.seehearparty.com",
+  "version": "2.0.0",
   "repository" : {
     "type" : "git",
     "url" : "https://github.com/frenkie/seehearparty-remote"

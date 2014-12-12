@@ -2,123 +2,138 @@
 
     var SERVER = '{{SERVER}}';
 
-    function injectJs ( link ) {
-        var scr = document.createElement('script');
+    function injectJs ( link, onLoad ) {
+        var scr = document.createElement( 'script' );
         scr.type = 'text/javascript';
         scr.async = false;
         scr.src = link;
+
+        if ( onLoad ) {
+            scr.onload = onLoad;
+        }
+
         (document.head || document.body || document.documentElement).appendChild( scr );
     }
 
     var Receiver = {
-         init : function ( host ) {
 
-             Receiver.host = host;
-             Receiver.socket = io( host );
+        init: function ( host ) {
 
-             Receiver.bindViewEvents();
-             Receiver.bindSocketEvents();
+            Receiver.host = host;
+            Receiver.socket = io( host );
 
-             Receiver.socket.emit('identify', 'receiver');
-         },
+            Receiver.bindViewEvents();
+            Receiver.bindSocketEvents();
 
-         bindSocketEvents : function () {
-             Receiver.socket.on('statusrequest', Receiver.handleStatusRequest);
+            Receiver.identify();
+        },
 
-             Receiver.socket.on('changequery', Receiver.handleQueryChange);
-             Receiver.socket.on('nexttrack', Receiver.handleNextTrack);
-             Receiver.socket.on('addtag', Receiver.handleTagAdd);
-             Receiver.socket.on('removetag', Receiver.handleTagRemove);
+        bindSocketEvents: function () {
+            Receiver.socket.on( 'statusrequest', Receiver.handleStatusRequest );
 
-             Receiver.socket.on('disconnect', Receiver.handleDisconnect);
-         },
+            Receiver.socket.on( 'changequery', Receiver.handleQueryChange );
+            Receiver.socket.on( 'nexttrack', Receiver.handleNextTrack );
+            Receiver.socket.on( 'addtag', Receiver.handleTagAdd );
+            Receiver.socket.on( 'removetag', Receiver.handleTagRemove );
 
-         bindViewEvents : function () {
+            Receiver.socket.on( 'disconnect', Receiver.handleDisconnect );
+        },
 
-             window.gifTagEdit.on('itemAdded itemRemoved', Receiver.handleTagUpdate );
-         },
+        bindViewEvents: function () {
 
-        handleDisconnect : function () {
-            var reconnect = confirm('Disconnected from See Hear Party, do you want to reconnect?');
+            window.gifTagEdit.on( 'itemAdded itemRemoved', Receiver.handleTagUpdate );
+        },
+
+        handleDisconnect: function () {
+            var reconnect = confirm( 'Disconnected from See Hear Party, do you want to reconnect?' );
 
             if ( reconnect ) {
                 Receiver.socket = io( Receiver.host );
-                Receiver.socket.emit('identify', 'receiver');
+                Receiver.identify();
             }
         },
 
-         handleNextTrack : function () {
+        handleNextTrack: function () {
 
-             window.controlsNextTrack();
-         },
+            window.controlsNextTrack();
+        },
 
-         handleQueryChange : function ( query ) {
+        handleQueryChange: function ( query ) {
 
-             if ( query !== window.soundcloudAudio.key ) {
-                 window.soundDataSearch(
-                     query,
-                     function () {
+            if ( query !== window.soundcloudAudio.key ) {
+                window.soundDataSearch( query, function () {
 
-                         // pause current audio
-                         window.dancer.pause();
+                    // pause current audio
+                    window.dancer.pause();
 
-                         Receiver.socket.emit( 'queryupdate', query );
-                         setTimeout( function () {
-                             window.soundArgSuccess();
-                             window.dancer.play();
-                             window.updateTrackInfo();
-                         }, 100);
-                     },
-                     function () {
-                         Receiver.socket.emit( 'queryupdate', window.soundcloudAudio.key );
-                         window.soundArgFailed();
-                     }
-                 );
-             }
-         },
+                    Receiver.socket.emit( 'queryupdate', query );
+                    setTimeout( function () {
+                        window.soundArgSuccess();
+                        window.dancer.play();
+                        window.updateTrackInfo();
+                    }, 100 );
+                }, function () {
+                    Receiver.socket.emit( 'queryupdate', window.soundcloudAudio.key );
+                    window.soundArgFailed();
+                } );
+            }
+        },
 
-         handleStatusRequest : function () {
+        handleStatusRequest: function () {
 
-             var status = {
-                 tags : ( window.gifTagEdit )? window.gifTagEdit.tagsinput('items') : [],
-                 maxTags : window.MAX_GIF_TAGS || 4,
-                 query : ( window.soundcloudAudio )? window.soundcloudAudio.key : ''
-             };
+            var status = {
+                tags: ( window.gifTagEdit ) ? window.gifTagEdit.tagsinput( 'items' ) : [],
+                maxTags: window.MAX_GIF_TAGS || 4,
+                query: ( window.soundcloudAudio ) ? window.soundcloudAudio.key : ''
+            };
 
-             Receiver.socket.emit( 'statusupdate', status );
-         },
+            Receiver.socket.emit( 'statusupdate', status );
+        },
 
-         handleTagAdd : function ( tag ) {
+        handleTagAdd: function ( tag ) {
 
-             if ( window.gifTagEdit.tagsinput('items').indexOf( tag ) === -1 ) {
-                 window.gifTagEdit.tagsinput('add', tag);
-             }
-         },
+            if ( window.gifTagEdit.tagsinput( 'items' ).indexOf( tag ) === -1 ) {
+                window.gifTagEdit.tagsinput( 'add', tag );
+            }
+        },
 
-         handleTagRemove : function ( tag ) {
+        handleTagRemove: function ( tag ) {
 
-             if ( window.gifTagEdit.tagsinput('items').indexOf( tag ) !== -1 ) {
-                 window.gifTagEdit.tagsinput('remove', tag);
-             }
-         },
+            if ( window.gifTagEdit.tagsinput( 'items' ).indexOf( tag ) !== -1 ) {
+                window.gifTagEdit.tagsinput( 'remove', tag );
+            }
+        },
 
-         handleTagUpdate : function () {
-             Receiver.socket.emit( 'tagupdate', window.gifTagEdit.tagsinput('items') );
-         }
+        handleTagUpdate: function () {
+            Receiver.socket.emit( 'tagupdate', window.gifTagEdit.tagsinput( 'items' ) );
+        },
+
+        identify: function () {
+
+            var partyPlace = prompt( 'Hey there! Please specify a party place you want to connect to!' );
+
+            if ( partyPlace && partyPlace !== '' ) {
+
+                Receiver.socket.emit( 'identify', {
+                    type: 'receiver',
+                    partyPlace: partyPlace,
+                    initializer: true // should be set based on whether the
+                                      // site is already playing or not
+                } );
+
+            }
+        }
     };
 
 
-    injectJs( SERVER + '/socket.io/socket.io.js' );
-
-    setTimeout(function () {
+    injectJs( SERVER + '/socket.io/socket.io.js', function () {
 
         if ( window.io ) {
             Receiver.init( SERVER );
-            alert('connected! Start partying!');
         } else {
-            alert('unable to connect');
+            alert( 'unable to connect' );
         }
 
-    }, 1000);
+    });
 
 })();

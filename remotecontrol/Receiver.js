@@ -5,29 +5,18 @@ var remoteUtil = require('./util');
 var debug = require('debug')('seehearparty:receiver');
 
 
-var Receiver = function ( socket ) {
+var Receiver = function ( socket, initializer ) {
     EventEmitter.call(this);
 
-    this.status = {
-        query : '',
-        tags : [],
-        maxTags : 4
-    };
-
     this.socket = socket;
-    this.bindEvents();
+    this.initializer = initializer || false;
 
-    // get the initial status of tags and query
-    this.socket.emit('statusrequest');
+    this.bindEvents();
 };
 
 util.inherits( Receiver, EventEmitter );
 
 remoteUtil.extend( Receiver.prototype, {
-
-    addTag : function ( tag ) {
-        this.socket.emit('addtag', tag );
-    },
 
     bindEvents : function () {
         this.socket.on('statusupdate', this.handleStatusUpdate.bind(this) );
@@ -38,23 +27,13 @@ remoteUtil.extend( Receiver.prototype, {
         //this.socket.on('disconnect', this.handleReceiverDisconnect.bind(this) );
     },
 
-    changeQuery : function ( query ) {
-        this.socket.emit('changequery', query );
-    },
-
     getId : function () {
         return this.socket.id;
     },
 
-    getStatus : function () {
-        return this.status;
-    },
-
     handleQueryUpdate : function ( query ) {
 
-        debug('received query update');
-
-        this.status.query = query;
+        debug('had a query update');
         this.emit('queryupdate', query );
     },
 
@@ -64,24 +43,20 @@ remoteUtil.extend( Receiver.prototype, {
 
     handleStatusUpdate : function ( status ) {
 
-        this.status = status;
-        this.emit('statusupdate', this.status );
+        this.emit('statusupdate', status );
     },
 
     handleTagUpdate : function ( tags ) {
-
-        debug('received tags update');
-
-        this.status.tags = tags;
+        debug('had a tags update');
         this.emit('tagupdate', tags );
     },
 
-    nextTrack : function () {
-        this.socket.emit('nexttrack');
+    isInitializer : function () {
+        return this.initializer;
     },
 
-    removeTag : function ( tag ) {
-        this.socket.emit('removetag', tag );
+    requestStatusUpdate : function () {
+        this.socket.emit( 'statusrequest' );
     }
 });
 
