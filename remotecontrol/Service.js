@@ -1,6 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
 var express = require('express');
-var fs = require('fs');
 var minify = require('minify');
 var util = require('util');
 var remoteUtil = require('./util');
@@ -40,40 +39,8 @@ remoteUtil.extend( Service.prototype, {
 
     create : function () {
 
-        this.createBookmarkletService();
         this.createReceiverService();
         this.createStaticFileServices();
-    },
-
-    createBookmarkletService : function () {
-
-        this.server.get('/bookmarklet', function ( req, res ) {
-
-            var error = 'error reading See Hear Party receiver bookmarklet';
-
-            fs.readFile( __dirname +'/receiver/bookmarklet.html', function ( err, fd ) {
-
-                if ( err ) {
-                    res.send( error );
-                } else {
-
-                    minify( __dirname +'/receiver/bookmarklet.js', function ( err, data ) {
-
-                        if ( err ){
-                            res.send( error );
-
-                        } else {
-
-                            data = data.replace(/\"/ig, "'");
-
-                            res.type('text/html');
-                            res.send( fd.toString().replace('{{bookmarklet}}', this.replaceServerAddress( req, data ) )  );
-                        }
-                    }.bind(this) );
-                }
-            }.bind(this) );
-
-        }.bind(this) );
     },
 
     createPartyPlace : function ( name ) {
@@ -100,9 +67,9 @@ remoteUtil.extend( Service.prototype, {
     },
 
     createStaticFileServices : function () {
-        this.server.use( express.static( __dirname +'/site' ) );
+
         this.server.use( '/remote', express.static( __dirname +'/remote' ) );
-        this.server.use( '/bookmarklet/css', express.static( __dirname +'/receiver/css' ) );
+        this.server.use( express.static( __dirname +'/site' ) );
     },
 
     getPartyPlace : function ( name ) {
@@ -130,7 +97,7 @@ remoteUtil.extend( Service.prototype, {
 
                 case 'receiver':
                     debug( 'receiver identified' );
-                    partyPlace.addReceiver( new Receiver( client, identity.initializer || false ) );
+                    partyPlace.addReceiver( new Receiver( client, identity.initialized || false ) );
                     break;
 
                 case 'remote':
@@ -149,8 +116,8 @@ remoteUtil.extend( Service.prototype, {
         return !! ( this.parties[ name ] );
     },
 
-    replaceServerAddress : function ( httpRequest, inData ) {
-        return inData.replace('{{SERVER}}', httpRequest.protocol +'://'+ httpRequest.get('host') );
+    replaceServerAddress : function ( fromHttpRequest, inData ) {
+        return inData.replace('{{SERVER}}', fromHttpRequest.protocol +'://'+ fromHttpRequest.get('host') );
     }
 });
 

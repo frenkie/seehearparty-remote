@@ -4,18 +4,86 @@
         <title>See Hear Party As A Service</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="css/site.css">
     </head>
     <body>
 
         <div id="site">
             <div class="container">
                 <div class="row">
-                    <h1 class="page-header">See Hear Party As A Service</h1>
+                    <div class="col-sm-12">
+                        <h1>See Hear Party As A Service</h1>
 
-                    <p>
-                        Get your Bookmarklet right <a href="bookmarklet/">here</a> and visit the <a href="remote/">remote site</a> with your remote device!
-                    </p>
+                        <p>
+                        If you haven't checked out <a href="http://www.seehearparty.com/">See Hear Party</a> yet,
+                        go do it! It combines GIF's from <a href="http://giphy.com">Giphy</a> and music from
+                        <a href="http://soundcloud.com">SoundCloud</a> into an energetic, epileptic and epic
+                        party visualizer. Made with <3 by <a href="http://twitter.com/peterjavidpour">@peterjavidpour</a>;
+                        </p>
+
+                        <h2>Remote control</h2>
+                        <p>
+                        One thing missing is a remote, so you and your friends can fight over which GIF
+                        to see or sound to hear.
+                        </p>
+
+                        <p>
+                        Well now it's here! With the See-Hear-Party-Remote you can manage the GIF tag input,
+                        the SoundCloud search query, or navigate to the next track from multiple devices.                                   </p>
+                    </div>
                 </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <h2>Usage</h2>
+                        <p>The See Hear Party site only works in the Chrome browser for now, so step 1 and 2 should
+                        be done in Chrome.</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-4 usage-step">
+                        <h2 class="usage-step-title">1</h2>
+                        <p>
+                            Save the following bookmarklet:
+                        </p>
+                        <a id="bookmarklet" href="javascript:(function(){var scr=document.createElement('script');scr.type='text/javascript';scr.async=false;scr.src='{{SERVER}}/receiver.js';(document.head||document.body||document.documentElement).appendChild(scr)})();" class="btn btn-primary">See Hear Party</a>
+                        <script>
+                            (function () {
+                                var bookmarklet = document.getElementById('bookmarklet');
+                                var server = document.location.origin;
+
+                                if ( bookmarklet ) {
+                                    bookmarklet.href = bookmarklet.href.replace('{{SERVER}}', server );
+                                }
+                            })();
+                        </script>
+                    </div>
+
+                    <div class="col-sm-4 usage-step">
+                        <h2 class="usage-step-title">2</h2>
+                        <p>
+                            Visit <a href="http://www.seehearparty.com/">See Hear Party</a>; start the party;
+                            press the saved Bookmark and name your party place.
+                        </p>
+                    </div>
+
+                    <div class="col-sm-4 usage-step">
+                        <h2 class="usage-step-title">3</h2>
+                        <p>
+                            Visit <a href="/remote">the remote control</a> with other devices, enter your party name,
+                            and start fighting over the remote!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <p><br /></p>
+                        <p><br /></p>
+                       <h2>P.S.</h2>
+                       <p>You can even connect multiple See Hear Party sites with the bookmarklet, and share parties in each other's house!</p>
+                    </div>
+               </div>
+
             </div>
         </div>
     </body>

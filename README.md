@@ -12,37 +12,45 @@ to see or sound to hear.
 Well now it's here! With the See-Hear-Party-Remote you can manage the GIF tag input, 
 the SoundCloud search query, or navigate to the next track from multiple devices.  
 
-# install
+# usage
+Go visit ... and follow the directions on that page to get going!
+The [See Hear Party](http://www.seehearparty.com/) site currently only works in
+Chrome, but the remotes work in any browser.
+
+With version 2 of the software it's possible to connect multiple receivers and
+remotes to a party place, so you can even party with people elsewhere.
+
+# development and local server
+The software consists of a [Node.js](http://nodejs.org/) server and a bookmarklet.
+The server's root has links to a remote control web page that you can access from
+multiple devices and to the bookmarklet, which connects
+[http://www.seehearparty.com/](http://www.seehearparty.com/) to the server.
+
+## install
 Use `npm install` to install all prerequisites.
 
-# usage
-The remote consists of [Node.js](http://nodejs.org/) server and a bookmarklet. 
-The server's root is a remote control web page that you can access from multiple devices.
-The bookmarklet connects [http://www.seehearparty.com/](http://www.seehearparty.com/)
-to the server.
-
 ## server
-Run the server with `npm start`; by default it will run on `localhost:3000`.
+Run the local server with `npm start`; by default it will run on `localhost:3000`.
 
 You can also use `npm run-script debug` instead to get some debugging info.
 
 ## bookmarklet
 The See Hear Party site currently only works on Chrome, so visit 
-[http://localhost:3000/bookmarklet](http://localhost:3000/bookmarklet) in Chrome and drag
+[http://localhost:3000](http://localhost:3000) in Chrome and drag
 the bookmarklet to your Bookmarks.
 
 Now visit [See Hear Party](http://www.seehearparty.com/) and start of with a GIF
-and music search. Then activate the bookmarklet, enter the URL of the server
-and wait for the 'connected! Start partying!' message.
+and music search. Then activate the bookmarklet, enter the name of your party place
+and you are all set.
 
 ## remotes
 To connect any remote device to the server, make sure your computer with the
 running server is accessible in your local network.
  
-Go to `http://your-local-server:3000/` and voila, start fighting! 
+Go to `http://your-local-server:3000/remote` and voila, start fighting!
 
 
-# Access the server from the Internet
+## access your development server from the Internet
 
 If you want to make the server available from outside your local network so
 your party people don't have to get access to your wifi, you can use a free
@@ -54,6 +62,12 @@ use that one!
 
 
 # version history
+
+### 2.0.0
+Version 2 introduces See Hear Party As A Service. It is now possible to
+create multiple party places on the web, on the fly, so you can have
+an unlimited combination of receivers and remotes. Even multiple receivers
+in 1 party place so you can share your party with people elsewhere.
 
 ### 1.1.0
 When a remote client is disconnected without a user's intention (e.g. when

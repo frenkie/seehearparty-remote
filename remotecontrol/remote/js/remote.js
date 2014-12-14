@@ -38,6 +38,10 @@ $(function () {
             Remote.socket.on('queryupdate', Remote.handleQueryUpdate);
             Remote.socket.on('statusupdate', Remote.handleStatusUpdate);
             Remote.socket.on('tagupdate', Remote.handleTagUpdate);
+
+            Remote.socket.on('clearloadingstates', Remote.handleClearLoadingStates);
+
+
             Remote.socket.on('disconnect', Remote.handleDisconnect);
         },
 
@@ -68,6 +72,10 @@ $(function () {
         enableTagInput : function () {
             Remote.tagInput.prop('disabled', false );
             Remote.tagSubmit.prop('disabled', false );
+        },
+
+        handleClearLoadingStates : function () {
+            Remote.setLoadingState(false);
         },
 
         handleDisconnect : function () {
