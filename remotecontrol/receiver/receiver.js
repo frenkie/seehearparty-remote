@@ -1,6 +1,4 @@
-(function () {
-
-    var SERVER = '{{SERVER}}';
+(function ( bookmarkletScript ) {
 
     function injectJs ( link, onLoad ) {
         var scr = document.createElement( 'script' );
@@ -268,15 +266,18 @@
         }
     };
 
+    if ( bookmarkletScript ) {
+        injectJs( bookmarkletScript.getAttribute('data-server') + '/socket.io/socket.io.js', function () {
 
-    injectJs( SERVER + '/socket.io/socket.io.js', function () {
+            if ( window.io ) {
+                Receiver.init( bookmarkletScript.getAttribute('data-server') );
+            } else {
+                alert( 'unable to connect' );
+            }
 
-        if ( window.io ) {
-            Receiver.init( SERVER );
-        } else {
-            alert( 'unable to connect' );
-        }
+        } );
+    } else {
+        alert('unable to execute bookmarklet; script reference missing!');
+    }
 
-    });
-
-})();
+})( document.getElementById('seehearparty-bookmarklet') );

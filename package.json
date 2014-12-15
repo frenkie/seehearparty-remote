@@ -6,14 +6,14 @@
     "type" : "git",
     "url" : "https://github.com/frenkie/seehearparty-remote"
   },
+  "main" : "remotecontrol/server.js",
   "scripts" : {
-    "start" : "node remotecontrol/server",
+    "start" : "node remotecontrol/server.js",
     "debug" : "DEBUG=seehearparty* node remotecontrol/server"
   },
   "dependencies": {
     "debug": "^2.1.0",
     "express": "^4.9.7",
-    "minify": "^1.0.4",
     "socket.io": "^1.1.0"
   }
 }

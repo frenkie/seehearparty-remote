@@ -45,14 +45,14 @@
                         <p>
                             Save the following bookmarklet:
                         </p>
-                        <a id="bookmarklet" href="javascript:(function(){var scr=document.createElement('script');scr.type='text/javascript';scr.async=false;scr.src='{{SERVER}}/receiver.js';(document.head||document.body||document.documentElement).appendChild(scr)})();" class="btn btn-primary">See Hear Party</a>
+                        <a id="bookmarklet" href="javascript:(function(){var scr=document.createElement('script');scr.type='text/javascript';scr.id='seehearparty-bookmarklet';scr.setAttribute('data-server','{{SERVER}}');scr.async=false;scr.src='{{SERVER}}/receiver/receiver.js';(document.head||document.body||document.documentElement).appendChild(scr)})();" class="btn btn-primary">See Hear Party</a>
                         <script>
                             (function () {
                                 var bookmarklet = document.getElementById('bookmarklet');
                                 var server = document.location.origin;
 
                                 if ( bookmarklet ) {
-                                    bookmarklet.href = bookmarklet.href.replace('{{SERVER}}', server );
+                                    bookmarklet.href = bookmarklet.href.replace(/\{\{SERVER\}\}/g, server );
                                 }
                             })();
                         </script>

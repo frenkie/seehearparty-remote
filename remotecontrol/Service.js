@@ -1,6 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
 var express = require('express');
-var minify = require('minify');
 var util = require('util');
 var remoteUtil = require('./util');
 
@@ -39,7 +38,6 @@ remoteUtil.extend( Service.prototype, {
 
     create : function () {
 
-        this.createReceiverService();
         this.createStaticFileServices();
     },
 
@@ -49,26 +47,10 @@ remoteUtil.extend( Service.prototype, {
         return this.parties[ name ];
     },
 
-    createReceiverService : function () {
-
-        this.server.get('/receiver.js', function ( req, res ) {
-
-             minify( __dirname +'/receiver/receiver.js', function ( err, data ) {
-                 if ( err ){
-                     res.type('application/javascript');
-                     res.send('alert(\'unable to get the receiver\')');
-
-                 } else {
-                     res.type('application/javascript');
-                     res.send( this.replaceServerAddress( req, data ) );
-                 }
-             }.bind(this) );
-        }.bind(this) );
-    },
-
     createStaticFileServices : function () {
 
         this.server.use( '/remote', express.static( __dirname +'/remote' ) );
+        this.server.use( '/receiver', express.static( __dirname +'/receiver' ) );
         this.server.use( express.static( __dirname +'/site' ) );
     },
 
@@ -114,10 +96,6 @@ remoteUtil.extend( Service.prototype, {
     hasPartyPlace : function ( name ) {
 
         return !! ( this.parties[ name ] );
-    },
-
-    replaceServerAddress : function ( fromHttpRequest, inData ) {
-        return inData.replace('{{SERVER}}', fromHttpRequest.protocol +'://'+ fromHttpRequest.get('host') );
     }
 });
 
