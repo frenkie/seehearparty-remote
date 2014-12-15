@@ -8,8 +8,10 @@ var io = require('socket.io')( server );
 
 var service = new Service( app, io );
 
-var servePort = process.env.PORT || 3000;
+var serveIp = process.env.OPENSHIFT_NODEJS_IP || '127.0.0.1';
+var servePort = process.env.OPENSHIFT_NODEJS_PORT || process.env.PORT || 3000;
 
-server.listen( servePort );
+server.listen( servePort, serveIp, function () {
 
-debug('spinning on localhost:'+ servePort );
+    debug('spinning on '+ serveIp +':'+ servePort );
+});
