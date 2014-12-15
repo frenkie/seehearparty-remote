@@ -38,7 +38,19 @@ remoteUtil.extend( Service.prototype, {
 
     create : function () {
 
+        this.createConfigService();
         this.createStaticFileServices();
+    },
+
+        // OpenShift.org needs specific WebSocket settings in client connections
+    createConfigService : function () {
+
+        this.server.get( '/config.js', function ( req, res ) {
+
+            res.type('application/javascript');
+            res.send('var seeHearPartyConfig = { deployedOnOpenShift : '+
+                ( ( process.env.OPENSHIFT_NODEJS_PORT ) ? 'true' : 'false' ) +' }');
+        });
     },
 
     createPartyPlace : function ( name ) {

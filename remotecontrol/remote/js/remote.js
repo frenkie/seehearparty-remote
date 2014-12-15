@@ -1,5 +1,13 @@
 $(function () {
 
+    var dl = document.location;
+    var socketServer = dl.origin;
+
+    if ( window.seeHearPartyConfig && window.seeHearPartyConfig.deployedOnOpenShift ) {
+
+        socketServer = dl.protocol +'//'+ dl.hostname + ':8000';
+    }
+
     var Remote = {
 
         templates : {
@@ -8,9 +16,10 @@ $(function () {
                     ' <span class="tag-close glyphicon glyphicon-remove"></span></span>'
         },
 
-        init : function () {
-            
-            Remote.socket = io();
+        init : function ( host ) {
+
+            Remote.host = host;
+            Remote.socket = io( host );
 
             Remote.maxTagInput = 4;
             Remote.profanityCheck = /[^\w\s]+/ig; // will be replaced by the server
@@ -82,7 +91,7 @@ $(function () {
             var reconnect = confirm('Disconnected from See Hear Party, do you want to reconnect?');
 
             if ( reconnect ) {
-                Remote.socket = io();
+                Remote.socket = io( Remote.host );
                 Remote.identify();
             }
         },
@@ -205,6 +214,6 @@ $(function () {
 
 
     if ( window.io ) {
-        Remote.init();
+        Remote.init( socketServer );
     }
 });

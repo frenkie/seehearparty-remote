@@ -63,6 +63,11 @@ use that one!
 
 # version history
 
+### 2.1.0
+The service is deployed through [OpenShift.org](http://openshift.org)
+which has specific demands on the client's WebSocket connection port.
+A configuration is added to enable this.
+
 ### 2.0.0
 Version 2 introduces See Hear Party As A Service. It is now possible to
 create multiple party places on the web, on the fly, so you can have

@@ -270,7 +270,7 @@
         injectJs( bookmarkletScript.getAttribute('data-server') + '/socket.io/socket.io.js', function () {
 
             if ( window.io ) {
-                Receiver.init( bookmarkletScript.getAttribute('data-server') );
+                Receiver.init( bookmarkletScript.getAttribute('data-socket-server') );
             } else {
                 alert( 'unable to connect' );
             }
