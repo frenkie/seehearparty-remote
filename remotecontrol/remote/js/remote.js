@@ -189,8 +189,6 @@ $(function () {
                     partyPlace: partyPlace
                 } );
 
-            } else {
-                this.identify();
             }
         },
 
