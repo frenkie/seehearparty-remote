@@ -63,6 +63,9 @@ use that one!
 
 # version history
 
+### 2.1.1
+minor fix, able to deny reconnecting was broken
+
 ### 2.1.0
 The service is deployed through [OpenShift.org](http://openshift.org)
 which has specific demands on the client's WebSocket connection port.
