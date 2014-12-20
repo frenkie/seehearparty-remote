@@ -78,9 +78,17 @@ $(function () {
             Remote.tagSubmit.prop('disabled', true );
         },
 
+        disableTagRemoval : function () {
+            Remote.tagView.addClass('disabled');
+        },
+
         enableTagInput : function () {
             Remote.tagInput.prop('disabled', false );
             Remote.tagSubmit.prop('disabled', false );
+        },
+
+        enableTagRemoval : function () {
+            Remote.tagView.removeClass('disabled');
         },
 
         handleClearLoadingStates : function () {
@@ -158,9 +166,11 @@ $(function () {
         handleTagRemoveRequest : function ( e ) {
             var tag = $( e.currentTarget );
 
-            Remote.setLoadingState( true );
+            if ( ! Remote.tagView.is('.disabled') ) {
+                Remote.setLoadingState( true );
 
-            Remote.socket.emit('tagremoverequest', tag.data('tag') )
+                Remote.socket.emit( 'tagremoverequest', tag.data( 'tag' ) );
+            }
         },
 
         handleTagUpdate : function ( tags ) {
@@ -170,9 +180,14 @@ $(function () {
             if ( tags.length >= Remote.maxTagInput ) {
 
                 Remote.disableTagInput();
-
             } else {
                 Remote.enableTagInput();
+            }
+
+            if ( tags.length <= 1 ) {
+                Remote.disableTagRemoval();
+            } else {
+                Remote.enableTagRemoval();
             }
 
             Remote.setLoadingState( false );
@@ -213,5 +228,7 @@ $(function () {
 
     if ( window.io ) {
         Remote.init( socketServer );
+    } else {
+        $('.loader' ).html('unable to connect to See Hear Party Remote');
     }
 });

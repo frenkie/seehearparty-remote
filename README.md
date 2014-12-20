@@ -63,6 +63,11 @@ use that one!
 
 # version history
 
+### 2.2.0
+GIF tags now have a minimum of 1 and documented max of 4.
+SeeHearParty.com doesn't allow deletion of the last tag,
+so we have to respect that.
+
 ### 2.1.1
 minor fix, able to deny reconnecting was broken
 

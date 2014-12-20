@@ -224,13 +224,9 @@
         handleTagRemove: function ( tag ) {
 
             if ( window.gifTagEdit && window.gifTagEdit.tagsinput( 'items' ).indexOf( tag ) !== -1 ) {
-                if ( window.gifTagEdit.tagsinput( 'items' ).length == 1 ) {
-                    // there is a bug in that the tagsinput won't remove an item if it's the
-                    // only one left; also removeAll doesn't trigger a handleTagUpdate
-                    window.gifTagEdit.tagsinput( 'removeAll' );
-                    Receiver.handleTagUpdate();
-
-                } else {
+                // the site doesn't really delete the last tag, and we don't allow it in
+                // the remotes, so don't remove if there is 1 left
+                if ( window.gifTagEdit.tagsinput( 'items' ).length > 1 ) {
                     window.gifTagEdit.tagsinput( 'remove', tag );
                 }
             }
@@ -243,7 +239,8 @@
         },
 
         handleTrackUpdate : function () {
-            // the receiver want's to play the next track, broadcast this to all other receivers
+            // the receiver want's to play the next track, broadcast this to all other receivers;
+            // note: doesn't get triggered automatically, only on user input
             setTimeout( function () {
 
                 Receiver.socket.emit( 'trackupdate', window.soundcloudAudio.streamUrl );

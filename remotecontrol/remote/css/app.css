@@ -17,6 +17,10 @@ body {
     font-size: 13px;
 }
 
+.tags.disabled .tag-close {
+    display: none;
+}
+
 .tag,
 .tag:hover,
 .tag:active {
@@ -26,6 +30,15 @@ body {
     font-size: 16px;
     background-color: #404040;
     border-color: #333;
+}
+
+.tags.disabled .tag,
+.tags.disabled .tag:visited,
+.tags.disabled .tag:hover,
+.tags.disabled .tag:active {
+    background-color: #808080;
+    border-color: #666;
+    cursor: default;
 }
 
 .query {
