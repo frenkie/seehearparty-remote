@@ -45,11 +45,29 @@ remoteUtil.extend( Service.prototype, {
         // OpenShift.org needs specific WebSocket settings in client connections
     createConfigService : function () {
 
-        this.server.get( '/config.js', function ( req, res ) {
+        var respond = function ( party ) {
+            var config = 'var seeHearPartyConfig = { deployedOnOpenShift : '+
+                    ( ( process.env.OPENSHIFT_NODEJS_PORT ) ? 'true' : 'false' );
+
+            if ( party ) {
+                config += ', party: "'+ party +'" }';
+            } else {
+                config += '}';
+            }
+
+            return config;
+        };
+
+        this.server.get( '/remote/party/:party/config.js', function ( req, res ) {
 
             res.type('application/javascript');
-            res.send('var seeHearPartyConfig = { deployedOnOpenShift : '+
-                ( ( process.env.OPENSHIFT_NODEJS_PORT ) ? 'true' : 'false' ) +' }');
+            res.send( respond( req.params.party ) );
+        });
+
+        this.server.get( /(remote\/)?config\.js/, function ( req, res ) {
+
+            res.type('application/javascript');
+            res.send( respond() );
         });
     },
 
@@ -61,8 +79,9 @@ remoteUtil.extend( Service.prototype, {
 
     createStaticFileServices : function () {
 
-        this.server.use( '/remote', express.static( __dirname +'/remote' ) );
+        this.server.use( '/remote/party/:party', express.static( __dirname +'/remote' ) );
         this.server.use( '/receiver', express.static( __dirname +'/receiver' ) );
+        this.server.use( '/remote', express.static( __dirname +'/remote' ) );
         this.server.use( express.static( __dirname +'/site' ) );
     },
 

@@ -2,10 +2,15 @@ $(function () {
 
     var dl = document.location;
     var socketServer = dl.origin;
+    var preParty; // URL can have a party name in the path
 
     if ( window.seeHearPartyConfig && window.seeHearPartyConfig.deployedOnOpenShift ) {
 
         socketServer = dl.protocol +'//'+ dl.hostname + ':8000';
+    }
+
+    if ( window.seeHearPartyConfig && window.seeHearPartyConfig.party ) {
+        preParty = window.seeHearPartyConfig.party;
     }
 
     var Remote = {
@@ -25,6 +30,8 @@ $(function () {
             Remote.profanityCheck = /[^\w\s]+/ig; // will be replaced by the server
 
             Remote.loader = $('.loader');
+
+            Remote.partyPlace = $('.party-place');
 
             Remote.tagForm = $('.tag-form');
             Remote.tagInput = $('#tag-input');
@@ -96,9 +103,16 @@ $(function () {
         },
 
         handleDisconnect : function () {
-            var reconnect = confirm('Disconnected from See Hear Party, do you want to reconnect?');
 
-            if ( reconnect ) {
+            var reconnectMessage = '';
+
+            if ( preParty ) {
+                reconnectMessage = 'Disconnected from party '+  preParty+', do you want to reconnect?'
+            } else {
+                reconnectMessage = 'Disconnected from See Hear Party, do you want to reconnect?';
+            }
+
+            if ( confirm( reconnectMessage ) ) {
                 Remote.socket = io( Remote.host );
                 Remote.identify();
             }
@@ -195,7 +209,14 @@ $(function () {
 
         identify: function () {
 
-            var partyPlace = prompt( 'Hey there! Please specify a party place you want to connect to!' );
+            var partyPlace;
+
+            if ( preParty ) {
+                partyPlace = preParty;
+
+            } else {
+                partyPlace = prompt( 'Hey there! Please specify a party place you want to connect to!' );
+            }
 
             if ( partyPlace && partyPlace !== '' ) {
 
@@ -203,6 +224,9 @@ $(function () {
                     type: 'remote',
                     partyPlace: partyPlace
                 } );
+
+                Remote.partyPlace.removeClass('hidden')
+                        .html( 'controlling <a href="/remote/party/'+ partyPlace +'">'+ partyPlace +'</a>' );
 
             }
         },

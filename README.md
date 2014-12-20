@@ -49,6 +49,10 @@ running server is accessible in your local network.
  
 Go to `http://your-local-server:3000/remote` and voila, start fighting!
 
+If you know the party name you can also connect to
+`http://your-local-server:3000/remote/party/partyname` so you don't have to
+specify the party name each time you (re)connect.
+
 
 ## access your development server from the Internet
 
@@ -62,6 +66,10 @@ use that one!
 
 
 # version history
+
+### 2.3.0
+You can now easily connect to a party with a remote if you know the party name.
+And when reconnecting you don't have to enter the party name again.
 
 ### 2.2.0
 GIF tags now have a minimum of 1 and documented max of 4.

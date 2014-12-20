@@ -19,6 +19,8 @@ p {
     padding: 10px;
 }
 
+/* Bootstrap overrides */
+
 .btn.btn-primary {
     background-color: #404040;
     border-color: #333;
@@ -27,6 +29,9 @@ p {
 .btn.btn-primary:hover {
     background-color: #000;
 }
+
+/* components */
+
 
 .usage-step {
     text-align: center;

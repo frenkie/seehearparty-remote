@@ -11,6 +11,11 @@ body {
     margin-top: 10px;
 }
 
+.party-place {
+    padding-top: 5px;
+    display: block;
+}
+
 .tag-close {
     margin-left: 5px;
     color: white;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>See Hear Party - Remote</title>
+        <title>see hear party - remote control</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
         <link rel="stylesheet" href="css/app.css">
@@ -11,11 +11,13 @@
         <div id="app">
             <div class="container">
                 <div class="row">
-                    <h1 class="page-header">See Hear Party <small>Remote</small></h1>
+                    <h1 class="page-header">see hear party <small>remote</small>
+                        <small class="party-place hidden"></small>
+                    </h1>
 
                     <div class="controls">
 
-                        <h4>GIF tags <small>(min. 1, max. 4)</small></h4>
+                        <h4>gif tags <small>(min. 1, max. 4)</small></h4>
 
                         <div class="well">
 
@@ -31,7 +33,7 @@
 
                         <hr />
 
-                        <h4>Music</h4>
+                        <h4>music</h4>
                         <div class="well">
 
                             <span>Searching: </span><span class="query">...</span>
@@ -57,7 +59,7 @@
 
         <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
         <script src="/socket.io/socket.io.js"></script>
-        <script src="/config.js"></script>
+        <script src="config.js"></script>
         <script src="js/remote.js"></script>
     </body>
 </html>
