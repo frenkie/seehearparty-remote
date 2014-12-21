@@ -13,7 +13,8 @@ Well now it's here! With the See-Hear-Party-Remote you can manage the GIF tag in
 the SoundCloud search query, or navigate to the next track from multiple devices.  
 
 # usage
-Go visit [http://seehearparty-frenkie.rhcloud.com](http://seehearparty-frenkie.rhcloud.com) and follow the directions on that page to get going!
+Go visit [http://www.seehearpartyremote.com](http://www.seehearpartyremote.com)
+and follow the directions on that page to get going!
 The [See Hear Party](http://www.seehearparty.com/) site currently only works in
 Chrome, but the remotes work in any browser.
 
@@ -67,8 +68,11 @@ use that one!
 
 # version history
 
+### 2.4.1
+Reference to the See Hear Party Remote site.
+
 ### 2.4.0
-removed profanity check, parties should be democratic :)
+Removed profanity check, parties should be democratic :)
 
 ### 2.3.0
 You can now easily connect to a party with a remote if you know the party name.
