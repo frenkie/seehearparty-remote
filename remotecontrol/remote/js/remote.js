@@ -27,7 +27,6 @@ $(function () {
             Remote.socket = io( host );
 
             Remote.maxTagInput = 4;
-            Remote.profanityCheck = /[^\w\s]+/ig; // will be replaced by the server
 
             Remote.loader = $('.loader');
 
@@ -69,15 +68,6 @@ $(function () {
             Remote.tagView.on('click', '.tag', Remote.handleTagRemoveRequest );
 
             Remote.nextTrack.on('click', Remote.handleNextTrackRequest);
-        },
-
-        checkProfanity : function ( input ) {
-            if ( Remote.profanityCheck.test( input ) ) {
-                alert('that\'s not nice!');
-                return false;
-            }
-
-            return true;
         },
 
         disableTagInput : function () {
@@ -128,7 +118,7 @@ $(function () {
 
             e.preventDefault();
 
-            if ( Remote.checkProfanity( query ) && query !== Remote.queryView.text() ) {
+            if ( query !== Remote.queryView.text() ) {
 
                 Remote.setLoadingState(true);
 
@@ -153,10 +143,6 @@ $(function () {
                 Remote.maxTagInput = data.maxTags;
             }
 
-            if ( data.profanityCheck ) {
-                Remote.profanityCheck = new RegExp( data.profanityCheck, 'ig' );
-            }
-
             Remote.handleTagUpdate( data.tags || [] );
             Remote.handleQueryUpdate( data.query || '' );
         },
@@ -167,14 +153,12 @@ $(function () {
 
             e.preventDefault();
 
-            if ( Remote.checkProfanity( tag ) ) {
+            Remote.setLoadingState(true);
 
-                Remote.setLoadingState(true);
+            Remote.socket.emit('tagaddrequest', tag);
 
-                Remote.socket.emit('tagaddrequest', tag);
+            Remote.tagInput.val('');
 
-                Remote.tagInput.val('');
-            }
         },
 
         handleTagRemoveRequest : function ( e ) {

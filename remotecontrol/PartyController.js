@@ -4,10 +4,6 @@ var util = require('util');
 var remoteUtil = require('./util');
 var debug = require('debug')('seehearparty:partycontrol');
 
-var profanityCheck = '(shit|porn|tit|turd|boob|dick|cock|sex|shag|suck|pussy|fuck|nude|naked|ass|breast|whore|piemel|lul|tiet|kont|kut)';
-var profanityRegExp = new RegExp( profanityCheck, 'ig');
-
-
 var PartyController = function ( broadcaster, partyPlace ) {
 
     EventEmitter.call(this);
@@ -16,8 +12,7 @@ var PartyController = function ( broadcaster, partyPlace ) {
     this.partyPlace = partyPlace;
 
     this.status = {
-        maxTags : 4,
-        profanityCheck : profanityCheck
+        maxTags : 4
     };
 };
 
@@ -57,14 +52,6 @@ remoteUtil.extend( PartyController.prototype, {
         remote.on('querychangerequest', this.handleRemoteQueryChangeRequest.bind(this, remote) );
         remote.on('tagaddrequest', this.handleRemoteTagAddRequest.bind(this, remote) );
         remote.on('tagremoverequest', this.handleRemoteTagRemoveRequest.bind(this, remote) );
-    },
-
-    checkProfanity : function ( term ) {
-        if ( profanityRegExp.test( term ) ) {
-            debug('profanity input, dismissing');
-            return false;
-        }
-        return true;
     },
 
         /*******************/
@@ -139,18 +126,12 @@ remoteUtil.extend( PartyController.prototype, {
 
     handleRemoteQueryChangeRequest : function ( remote, query ) {
         debug('handling remote query change request');
-        if ( this.checkProfanity( query ) ) {
-            this.broadcaster.to( this.partyPlace ).emit( 'changequery', query );
-        }
-        this.broadcaster.to( remote.getId() ).emit( 'clearloadingstates' );
+        this.broadcaster.to( this.partyPlace ).emit( 'changequery', query );
     },
 
     handleRemoteTagAddRequest : function ( remote, tag ) {
         debug('handling remote tag add request');
-        if ( this.checkProfanity( tag ) ) {
-            this.broadcaster.to( this.partyPlace ).emit( 'addtag', tag );
-        }
-        this.broadcaster.to( remote.getId() ).emit( 'clearloadingstates' );
+        this.broadcaster.to( this.partyPlace ).emit( 'addtag', tag );
     },
 
     handleRemoteTagRemoveRequest : function ( remote, tag ) {

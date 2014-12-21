@@ -67,6 +67,9 @@ use that one!
 
 # version history
 
+### 2.4.0
+removed profanity check, parties should be democratic :)
+
 ### 2.3.0
 You can now easily connect to a party with a remote if you know the party name.
 And when reconnecting you don't have to enter the party name again.
