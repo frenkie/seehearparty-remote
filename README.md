@@ -68,6 +68,10 @@ use that one!
 
 # version history
 
+### 2.4.2
+Remote control link now asks for your party name and redirects you to the
+permalink for you party's remote.
+
 ### 2.4.1
 Reference to the See Hear Party Remote site.
 
