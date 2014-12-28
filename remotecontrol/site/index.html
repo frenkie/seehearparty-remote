@@ -82,8 +82,48 @@
                     <div class="col-sm-4 usage-step usage-step-3">
                         <h2 class="usage-step-title">3</h2>
                         <p>
-                            Visit <a href="/remote">the remote control</a> with other devices, enter your party name,
-                            and start fighting over the remote! You can also visit /remote/party/partyname so you don't have to enter the party name each time you (re)connect.
+                            Visit <a href="/remote" id="remotecontrol">the remote control</a> with other devices, enter your party name,
+                            and start fighting over the remote!
+
+                            <script>
+                                (function () {
+
+                                    var addEvent = (function () {
+
+                                        if ( document.attachEvent ) {
+                                            return function ( elem, event, handler ) {
+                                                elem.attachEvent( 'on' + event, handler );
+                                            };
+                                        } else {
+                                            if ( document.addEventListener ) {
+                                                return function ( elem, event, handler ) {
+                                                    elem.addEventListener( event, handler );
+                                                };
+                                            } else {
+                                                return function () {
+                                                };
+                                            }
+                                        }
+
+                                    })();
+
+                                    var remoteControlLink = document.getElementById('remotecontrol');
+
+                                    addEvent( remoteControlLink, 'click', function ( e ) {
+
+                                        var partyName = prompt('Hey there! Please specify a party place you want to connect to!');
+
+                                        if ( partyName && partyName !== '' ) {
+
+                                            remoteControlLink.href += '/party/'+ partyName;
+
+                                        } else {
+                                            e.preventDefault();
+                                        }
+                                    });
+
+                                })();
+                            </script>
                         </p>
                     </div>
                 </div>
