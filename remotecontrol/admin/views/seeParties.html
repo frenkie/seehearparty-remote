@@ -1,0 +1,24 @@
+<table class="party-list table table-striped" ng-if=" parties && parties.length ">
+    <thead>
+        <tr>
+            <th>Active party</th>
+            <th>Created</th>
+            <th>Last modified</th>
+            <th>Active tags</th>
+            <th>Active query</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="party in parties">
+            <td>{{ party.name }}</td>
+            <td>{{ party.created | date:'d MMM, y hh:mm' }}</td>
+            <td>{{ party.lastModified | date:'d MMM, y HH:mm' }}</td>
+            <td>{{ party.activeTags | join:', ' }}</td>
+            <td>{{ party.activeQuery }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="no-parties" ng-if=" parties && ! parties.length ">
+    <h1>No parties yet!</h1>
+</div>

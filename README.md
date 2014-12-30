@@ -68,6 +68,9 @@ use that one!
 
 # version history
 
+### 3.0.0
+Adding admin interface with party statistics.
+
 ### 2.4.2
 Remote control link now asks for your party name and redirects you to the
 permalink for you party's remote.

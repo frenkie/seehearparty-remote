@@ -10,12 +10,13 @@ var Remote = require('./Remote');
 var Receiver = require('./Receiver');
 
 
-var Service = function ( expressInstance, socket ) {
+var Service = function ( expressInstance, socket, database ) {
 
     EventEmitter.call( this );
 
     this.server = expressInstance;
     this.socket = socket;
+    this.database = database;
 
     this.parties = {};
 
@@ -74,6 +75,28 @@ remoteUtil.extend( Service.prototype, {
     createPartyPlace : function ( name ) {
         this.parties[ name ] = new PartyController( this.socket, name );
 
+        // TODO: I don't think this will work async with a lot of connects
+
+        this.database.get( 'parties', function ( err, value ) {
+
+            var now = ( new Date() ).getTime();
+
+            if ( err || ( ! err && ! value[ name ] ) ) {
+
+                value = value || {};
+                value[ name ] = now;
+
+                this.database.batch([
+                    { type: 'put', key: 'parties', value: value  },
+                    { type: 'put', key: name +'_lastModified', value: now }
+                ], this.handleDatabaseCallback.bind( this ) );
+
+            } else {
+
+                this.database.put( name +'_lastModified', now, this.handleDatabaseCallback.bind( this ) );
+            }
+        }.bind( this ) );
+
         return this.parties[ name ];
     },
 
@@ -121,6 +144,12 @@ remoteUtil.extend( Service.prototype, {
         } else {
 
             debug( 'incomplete identification request' );
+        }
+    },
+
+    handleDatabaseCallback : function ( err ) {
+        if ( err ) {
+            debug( err );
         }
     },
 

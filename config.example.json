@@ -1,0 +1,6 @@
+{
+  "cookieSecret" : "see",
+  "adminUsername" : "hear",
+  "adminPassword" : "party",
+  "database" : "pathto/database"
+}
