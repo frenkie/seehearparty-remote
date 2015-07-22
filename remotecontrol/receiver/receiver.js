@@ -22,7 +22,7 @@
             lastKickTime = Date.now();
             beatHeldTime = beatHoldTime;
 
-            if ( gifSourcesReady.length ) {
+            if ( gifsReady ) {
                 getRandomGifSource().displayRandomGif();
             }
 
